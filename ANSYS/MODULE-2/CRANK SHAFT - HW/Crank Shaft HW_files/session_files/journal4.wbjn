@@ -1,0 +1,63 @@
+# encoding: utf-8
+# 2024 R1
+SetScriptVersion(Version="24.1.144")
+system1 = GetSystem(Name="SYS")
+modelComponent1 = system1.GetComponent(Name="Model")
+modelComponent1.Refresh()
+model1 = system1.GetContainer(ComponentName="Model")
+model1.Edit()
+engineeringData1 = system1.GetContainer(ComponentName="Engineering Data")
+matl1 = engineeringData1.CreateMaterial(Name="Al")
+matlProp1 = matl1.CreateProperty(
+    Name="Elasticity",
+    Behavior="Isotropic",
+    Qualifiers={"Definition": "", "Behavior": "Isotropic"})
+unitSystem1 = SetProjectUnitSystem(UnitSystemName="US Engineering")
+matlProp1.SetData(
+    SheetName="Elasticity",
+    SheetQualifiers={"Definition": "", "Behavior": "Isotropic", "Derive from": "Young's Modulus and Poisson's Ratio"},
+    Index=-1,
+    Variables=["Young's Modulus"],
+    Values=[["10000000 [Pa]"]])
+matlProp1.SetData(
+    SheetName="Elasticity",
+    SheetQualifiers={"Definition": "", "Behavior": "Isotropic", "Derive from": "Young's Modulus and Poisson's Ratio"},
+    Variables=["Poisson's Ratio"],
+    Values=[["0.03"]])
+matlProp1.BeginBatchUpdate()
+matlProp1.SetVariableProperty(
+    SheetName="Elasticity",
+    SheetQualifiers={"Definition": "", "Behavior": "Isotropic", "Derive from": "Young's Modulus and Poisson's Ratio"},
+    VariableName="Young's Modulus",
+    Property="Unit",
+    Value="psi")
+matlProp1.SetData(
+    SheetName="Elasticity",
+    SheetQualifiers={"Definition": "", "Behavior": "Isotropic", "Derive from": "Young's Modulus and Poisson's Ratio"},
+    Variables=["Young's Modulus"],
+    Values=[["1450.3773773017476 [psi]"]])
+matlProp1.EndBatchUpdate()
+matlProp1.SetData(
+    SheetName="Elasticity",
+    SheetQualifiers={"Definition": "", "Behavior": "Isotropic", "Derive from": "Young's Modulus and Poisson's Ratio"},
+    Variables=["Young's Modulus"],
+    Values=[["10000000 [psi]"]])
+matlProp1.SetData(
+    SheetName="Elasticity",
+    SheetQualifiers={"Definition": "", "Behavior": "Isotropic", "Derive from": "Young's Modulus and Poisson's Ratio"},
+    Variables=["Poisson's Ratio"],
+    Values=[["0.33"]])
+modelComponent1.Refresh()
+Save(Overwrite=True)
+Archive(FilePath="B:/COURSES/COMPUTER SCIENCE/COURSERA/ANSYS/CRANK SHAFT/HW/crank_hw_corrected_orientation.wbpz")
+model1.Exit()
+Save(Overwrite=True)
+engineeringDataComponent1 = system1.GetComponent(Name="Engineering Data")
+geometryComponent1 = system1.GetComponent(Name="Geometry")
+system2 = system1.Duplicate(
+    ComponentsToShare=[engineeringDataComponent1, geometryComponent1],
+    RelativeTo=system1)
+model2 = system2.GetContainer(ComponentName="Model")
+model2.Edit()
+model2.Exit()
+Save(Overwrite=True)

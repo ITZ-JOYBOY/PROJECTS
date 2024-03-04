@@ -1,0 +1,41 @@
+# encoding: utf-8
+# 2024 R1
+SetScriptVersion(Version="24.1.144")
+Refresh()
+system1 = GetSystem(Name="SYS")
+modelComponent1 = system1.GetComponent(Name="Model")
+modelComponent1.Reset()
+modelComponent1.Refresh()
+model1 = system1.GetContainer(ComponentName="Model")
+model1.Edit()
+model1.Exit()
+modelComponent1.Reset()
+modelComponent1.Refresh()
+model1.Edit()
+model1.Exit()
+geometry1 = system1.GetContainer(ComponentName="Geometry")
+geometryProperties1 = geometry1.GetGeometryProperties()
+geometryProperties1.GeometryImportAnalysisType = "AnalysisType_2D"
+modelComponent1.Reset()
+modelComponent1.Refresh()
+model1.Edit()
+Save(Overwrite=True)
+engineeringData1 = system1.GetContainer(ComponentName="Engineering Data")
+matl1 = engineeringData1.CreateMaterial(Name="VM")
+matlProp1 = matl1.CreateProperty(
+    Name="Thermal Conductivity",
+    Behavior="Isotropic",
+    Qualifiers={"Definition": "", "Behavior": "Isotropic"})
+matlProp1.SetData(
+    Index=-1,
+    Variables=["Thermal Conductivity"],
+    Values=[["1 [W m^-1 C^-1]"]])
+modelComponent1.Refresh()
+setupComponent1 = system1.GetComponent(Name="Setup")
+setupComponent1.Refresh()
+Save(Overwrite=True)
+Save(Overwrite=True)
+Save(Overwrite=True)
+Save(Overwrite=True)
+Save(Overwrite=True)
+Save(Overwrite=True)
